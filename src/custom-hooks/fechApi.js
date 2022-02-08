@@ -1,5 +1,5 @@
 // Your code here
-class Countries {
+class FetchApi {
   constructor() {
     this.baseUrl = 'https://restcountries.com/v3.1/';
   }
@@ -12,7 +12,7 @@ class Countries {
       const responseData = await fetchData.json();
       return responseData;
     } catch (error) {
-      console.log('Error when get all list countries', error);
+      return `Error when get all list countries ${error}`;
     }
   }
 
@@ -24,9 +24,11 @@ class Countries {
       const responseData = await fetchData.json();
       return responseData;
     } catch (error) {
-      console.log('Error when search country by international or native name', error);
+      return `Error when search country by international or native name ${error}`;
     }
   }
 }
 
-export default Countries;
+const fetchData = FetchApi();
+
+export default fetchData;
