@@ -29,6 +29,6 @@ class FetchApi {
   }
 }
 
-const fetchData = FetchApi();
+const fetchData = new FetchApi();
 
 export default fetchData;
