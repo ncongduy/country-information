@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { TableBody, TableCell, TableRow } from '@mui/material';
 
@@ -16,17 +16,17 @@ TbBody.defaultProps = {
   rowsPerPage: 10,
 };
 
-function renderValue(columns, value) {
-  if (columns.id === 'flag') {
-    return <img src={value} alt={`Flag of nation`} width="50" />;
-  } else if (columns.format && typeof value === 'number') {
-    return columns.format(value);
-  } else {
-    return value;
-  }
-}
-
 function TbBody({ rows, columns, page, rowsPerPage }) {
+  const renderValue = useCallback((col, value) => {
+    if (col.id === 'flag') {
+      return <img src={value} alt={`Flag of nation`} width="50" />;
+    } else if (col.format && typeof value === 'number') {
+      return col.format(value);
+    } else {
+      return value;
+    }
+  }, []);
+
   return (
     <TableBody>
       {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {

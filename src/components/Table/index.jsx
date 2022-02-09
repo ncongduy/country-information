@@ -24,6 +24,8 @@ function TableFeature() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
+    if (countries.length === 0) return;
+
     const data = countries.map((country) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
@@ -46,7 +48,7 @@ function TableFeature() {
 
   return (
     <Paper sx={{ width: '100%' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: '90vh' }}>
         <Table>
           <TbHead columns={columns} />
           <TbBody columns={columns} rows={rows} page={page} rowsPerPage={rowsPerPage} />
