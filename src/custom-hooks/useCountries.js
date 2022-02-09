@@ -5,15 +5,17 @@ import fetchData from './fechApi';
 
 function useCountries() {
   const [countries, setCountries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const data = await fetchData.getAllCountries();
       setCountries(data);
+      setIsLoading(false);
     })();
   }, []);
 
-  return countries;
+  return [countries, isLoading];
 }
 
 export default useCountries;
