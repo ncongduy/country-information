@@ -1,10 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
-CountryPage.propTypes = {};
+import CardList from './components/CardList';
+import useCountry from '../../custom-hooks/useCountry';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 
 function CountryPage(props) {
-  return <div>one CountryPage</div>;
+  const { countryName } = useParams();
+  const [country, isLoading, error] = useCountry(countryName);
+
+  if (isLoading) {
+    return <Loading />;
+  } else if (error) {
+    return <Error error={error} />;
+  }
+
+  return <CardList country={country} />;
 }
 
 export default CountryPage;
