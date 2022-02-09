@@ -14,7 +14,7 @@ function useCountry(nameCountry) {
       if (typeof data === 'string') {
         setError(data);
       } else {
-        setCountry(data);
+        setCountry(data[0]);
       }
       setIsLoading(false);
     })();
