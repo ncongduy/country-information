@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Stack, Alert, AlertTitle } from '@mui/material';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 
 import useCountries from '../../custom-hooks/useCountries';
 import TbHead from './components/TbHead';
 import TbBody from './components/TbBody';
+import Loading from '../../components/Loading';
+import Error from '../../components/Error';
 
 function HomePage() {
-  const [countries, isLoading] = useCountries();
+  const [countries, isLoading, error] = useCountries();
   const [columns] = useState(() => [
     { id: 'flag', label: 'Flag', minWidth: 160 },
     { id: 'name', label: 'Name', minWidth: 160 },
@@ -47,22 +48,10 @@ function HomePage() {
     setPage(0);
   };
 
-  if (typeof countries === 'string' && isLoading === false) {
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="error">
-          <AlertTitle>{countries}</AlertTitle>
-        </Alert>
-      </Stack>
-    );
-  } else if (isLoading === true) {
-    return (
-      <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="info">
-          <AlertTitle>Loading...</AlertTitle>
-        </Alert>
-      </Stack>
-    );
+  if (isLoading === true) {
+    return <Loading />;
+  } else if (error) {
+    return <Error error={error} />;
   }
 
   return (
