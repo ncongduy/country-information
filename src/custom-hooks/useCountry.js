@@ -6,16 +6,21 @@ import fetchData from './fechApi';
 function useCountry(nameCountry) {
   const [country, setCountry] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
       const data = await fetchData.searchCountry(nameCountry);
-      setCountry(data);
+      if (typeof data === 'string') {
+        setError(data);
+      } else {
+        setCountry(data);
+      }
       setIsLoading(false);
     })();
   }, [nameCountry]);
 
-  return [country, isLoading];
+  return [country, isLoading, error];
 }
 
 export default useCountry;
