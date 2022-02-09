@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { TableBody, TableCell, TableRow } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 TbBody.propTypes = {
   rows: PropTypes.array,
@@ -22,6 +23,8 @@ function TbBody({ rows, columns, page, rowsPerPage }) {
       return <img src={value} alt={`Flag of nation`} width="50" />;
     } else if (col.format && typeof value === 'number') {
       return col.format(value);
+    } else if (col.id === 'name') {
+      return <Link to={`/${value}`}>{value}</Link>;
     } else {
       return value;
     }
