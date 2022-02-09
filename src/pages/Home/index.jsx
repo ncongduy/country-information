@@ -3,10 +3,10 @@ import { Stack, Alert, AlertTitle } from '@mui/material';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 
 import useCountries from '../../custom-hooks/useCountries';
-import TbHead from '../TableHead';
-import TbBody from '../TableBody';
+import TbHead from './components/TbHead';
+import TbBody from './components/TbBody';
 
-function TableFeature() {
+function HomePage() {
   const [countries, isLoading] = useCountries();
   const [columns] = useState(() => [
     { id: 'flag', label: 'Flag', minWidth: 160 },
@@ -86,4 +86,4 @@ function TableFeature() {
   );
 }
 
-export default TableFeature;
+export default HomePage;
