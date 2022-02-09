@@ -7,24 +7,24 @@ class FetchApi {
   async getAllCountries() {
     try {
       const fetchData = await fetch(`${this.baseUrl}/all`);
-      if (!fetchData.ok) throw new Error(`Can not fetch data: ${fetchData.status}`);
+      if (!fetchData.ok) throw new Error(`${fetchData.status} Can not fetch data`);
 
       const responseData = await fetchData.json();
       return responseData;
     } catch (error) {
-      return `Error when get all list countries ${error}`;
+      return `${error} when get all list countries.`;
     }
   }
 
   async searchCountry(countryName) {
     try {
       const fetchData = await fetch(`${this.baseUrl}/name/${countryName}`);
-      if (!fetchData.ok) throw new Error(`Can not fetch data: ${fetchData.status}`);
+      if (!fetchData.ok) throw new Error(`${fetchData.status} Can not fetch data`);
 
       const responseData = await fetchData.json();
       return responseData;
     } catch (error) {
-      return `Error when search country by international or native name ${error}`;
+      return `${error} when search country by international or native name.`;
     }
   }
 }

@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Paper,
+  Stack,
+  Table,
+  TableContainer,
+  TablePagination,
+} from '@mui/material';
 
 import useCountries from '../../custom-hooks/useCountries';
 import TbHead from '../TableHead';
@@ -24,7 +32,7 @@ function TableFeature() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    if (countries.length === 0) return;
+    if (countries.length === 0 || typeof countries === 'string') return;
 
     const data = countries.map((country) => ({
       flag: country?.flags?.svg || country?.flags?.png,
@@ -45,6 +53,16 @@ function TableFeature() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  if (typeof countries === 'string') {
+    return (
+      <Stack sx={{ width: '100%' }} spacing={2}>
+        <Alert severity="error">
+          <AlertTitle>{countries}</AlertTitle>
+        </Alert>
+      </Stack>
+    );
+  }
 
   return (
     <Paper sx={{ width: '100%' }}>
