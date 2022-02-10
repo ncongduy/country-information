@@ -1,12 +1,44 @@
 import { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardMedia } from '@mui/material';
+import { Button, Card, CardMedia, Paper } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import CardItem from './CardItem';
-import { Link } from 'react-router-dom';
+import picture from '../../../assets/img/background.jpg';
 
 CardList.propTypes = {
   country: PropTypes.object.isRequired,
+};
+
+const styles = {
+  paper: {
+    minHeight: '100vh',
+    backgroundImage: `url(${picture})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  card: {
+    maxWidth: '20rem',
+  },
+
+  link: {
+    textDecoration: 'none',
+    padding: '1rem 0',
+
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  button: {
+    width: '10rem',
+    backgroundColor: '#2e7d32',
+  },
 };
 
 function CardList({ country }) {
@@ -60,22 +92,29 @@ function CardList({ country }) {
   }, []);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        height="194"
-        image={country.flags.svg || country.flags.png}
-        alt="National flag"
-      />
-      <ul>
-        {data.map((item) => (
-          <CardItem key={item.category} item={item} renderValue={renderValue} />
-        ))}
-      </ul>
-      <Link to="/">
-        <Button>Back</Button>
-      </Link>
-    </Card>
+    <Paper sx={styles.paper} elevation={0}>
+      <Card sx={styles.card}>
+        <Paper elevation={3}>
+          <CardMedia
+            component="img"
+            height="194"
+            image={country.flags.svg || country.flags.png}
+            alt="National flag"
+          />
+        </Paper>
+
+        <ul>
+          {data.map((item) => (
+            <CardItem key={item.category} item={item} renderValue={renderValue} />
+          ))}
+        </ul>
+        <Link to="/" style={styles.link}>
+          <Button variant="contained" size="large" sx={styles.button}>
+            Back
+          </Button>
+        </Link>
+      </Card>
+    </Paper>
   );
 }
 

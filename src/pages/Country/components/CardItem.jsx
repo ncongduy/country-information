@@ -35,7 +35,7 @@ function CardItem({ item, renderValue }) {
   return (
     <li>
       <CardActions disableSpacing>
-        {item.title}
+        <b>{item.title}</b>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}

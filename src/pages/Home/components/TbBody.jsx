@@ -24,7 +24,11 @@ function TbBody({ rows, columns, page, rowsPerPage }) {
     } else if (col.format && typeof value === 'number') {
       return col.format(value);
     } else if (col.id === 'name') {
-      return <Link to={`/${value}`}>{value}</Link>;
+      return (
+        <Link to={`/${value}`} style={{ textDecoration: 'none' }}>
+          {value}
+        </Link>
+      );
     } else {
       return value;
     }
