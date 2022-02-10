@@ -12,7 +12,7 @@ TbHead.defaultProps = {
 
 const styles = {
   countries: {
-    fontSize: '1.8rem',
+    fontSize: '2rem',
     fontWeight: 700,
   },
 
