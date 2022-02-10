@@ -7,6 +7,21 @@ import TbBody from './components/TbBody';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 
+const styles = {
+  paper: {
+    width: '100%',
+  },
+
+  tableContainer: {
+    maxHeight: 'calc(100vh - 4rem)',
+    padding: '0 1rem',
+  },
+
+  tablePagination: {
+    height: '4rem',
+  },
+};
+
 function HomePage() {
   const [countries, isLoading, error] = useCountries();
   const [columns] = useState(() => [
@@ -55,14 +70,15 @@ function HomePage() {
   }
 
   return (
-    <Paper sx={{ width: '100%' }}>
-      <TableContainer sx={{ maxHeight: '90vh' }}>
-        <Table>
+    <Paper sx={styles.paper}>
+      <TableContainer sx={styles.tableContainer}>
+        <Table stickyHeader aria-label="sticky table">
           <TbHead columns={columns} />
           <TbBody columns={columns} rows={rows} page={page} rowsPerPage={rowsPerPage} />
         </Table>
       </TableContainer>
       <TablePagination
+        sx={styles.tablePagination}
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}

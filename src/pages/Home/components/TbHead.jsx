@@ -10,12 +10,34 @@ TbHead.defaultProps = {
   columns: [],
 };
 
+const styles = {
+  countries: {
+    fontSize: '1.8rem',
+    fontWeight: 700,
+  },
+
+  menu: {
+    backgroundColor: '#203663',
+    color: '#fff',
+  },
+};
+
 function TbHead({ columns }) {
   return (
     <TableHead>
       <TableRow>
+        <TableCell sx={styles.countries} align="center" colSpan={5}>
+          Countries
+        </TableCell>
+      </TableRow>
+
+      <TableRow>
         {columns.map((column) => (
-          <TableCell key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
+          <TableCell
+            sx={styles.menu}
+            key={column.id}
+            style={{ top: 57, minWidth: column.minWidth }}
+          >
             {column.label}
           </TableCell>
         ))}
