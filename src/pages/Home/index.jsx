@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 
-import useCountries from '../../custom-hooks/useCountries';
+// import useCountries from '../../custom-hooks/useCountries';
 import TbHead from './components/TbHead';
 import TbBody from './components/TbBody';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
+import { fetchCountriesByRedux } from '../../redux/actions';
 
 const styles = {
   paper: {
@@ -23,7 +25,7 @@ const styles = {
 };
 
 function HomePage() {
-  const [countries, isLoading, error] = useCountries();
+  //  set up local state
   const [columns] = useState(() => [
     { id: 'flag', label: 'Flag', minWidth: 160 },
     { id: 'name', label: 'Name', minWidth: 160 },
@@ -40,19 +42,47 @@ function HomePage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  useEffect(() => {
-    if (countries.length === 0 || typeof countries === 'string') return;
+  //
+  // use custom hooks
+  //
+  // const [countries, isLoading, error] = useCountries();
+  // useEffect(() => {
+  //   if (countries.length === 0 || typeof countries === 'string') return;
+  //   const data = countries.map((country) => ({
+  //     flag: country?.flags?.svg || country?.flags?.png,
+  //     name: country?.name?.common,
+  //     population: country?.population,
+  //     region: country?.continents[0],
+  //     capital: country?.capital,
+  //   }));
+  //   setRows(data);
+  // }, [countries]);
 
-    const data = countries.map((country) => ({
+  //
+  // use Redux-Thunk to fetch data countries
+  //
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.countries.isLoading);
+  const dataCountries = useSelector((state) => state.countries.data);
+  const error = useSelector((state) => state.countries.error);
+
+  useEffect(() => {
+    if (dataCountries) return;
+    dispatch(fetchCountriesByRedux());
+  }, [dispatch, dataCountries]);
+
+  useEffect(() => {
+    if (!dataCountries) return;
+
+    const data = dataCountries.map((country) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
       population: country?.population,
       region: country?.continents[0],
       capital: country?.capital,
     }));
-
     setRows(data);
-  }, [countries]);
+  }, [dataCountries]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
