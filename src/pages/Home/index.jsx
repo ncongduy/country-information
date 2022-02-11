@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 
@@ -38,7 +38,6 @@ function HomePage() {
       format: (value) => value.toLocaleString('en-US'),
     },
   ]);
-  const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -66,23 +65,22 @@ function HomePage() {
   const dataCountries = useSelector((state) => state.countries.data);
   const error = useSelector((state) => state.countries.error);
 
-  useEffect(() => {
-    if (dataCountries) return;
-    dispatch(fetchALLCountriesByRedux());
-  }, [dispatch, dataCountries]);
+  const rows = useMemo(() => {
+    if (!dataCountries) return [];
 
-  useEffect(() => {
-    if (!dataCountries) return;
-
-    const data = dataCountries.map((country) => ({
+    return dataCountries.map((country) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
       population: country?.population,
       region: country?.continents[0],
       capital: country?.capital,
     }));
-    setRows(data);
   }, [dataCountries]);
+
+  useEffect(() => {
+    if (dataCountries) return;
+    dispatch(fetchALLCountriesByRedux());
+  }, [dispatch, dataCountries]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
