@@ -6,11 +6,11 @@ const initialState = {
 
 const allCountriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'FETCH_COUNTRIES_START':
+    case 'FETCH_START':
       return { ...state, isLoading: true };
-    case 'FETCH_COUNTRIES_SUCCESS':
+    case 'FETCH_SUCCESS':
       return { ...state, data: action.payload, isLoading: false };
-    case 'FETCH_COUNTRIES_ERROR':
+    case 'FETCH_ERROR':
       return { ...state, error: action.payload, isLoading: false };
     default:
       return state;

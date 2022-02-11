@@ -7,7 +7,7 @@ import TbHead from './components/TbHead';
 import TbBody from './components/TbBody';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
-import { fetchCountriesByRedux } from '../../redux/actions';
+import { fetchALLCountriesByRedux } from '../../redux/actions';
 
 const styles = {
   paper: {
@@ -68,7 +68,7 @@ function HomePage() {
 
   useEffect(() => {
     if (dataCountries) return;
-    dispatch(fetchCountriesByRedux());
+    dispatch(fetchALLCountriesByRedux());
   }, [dispatch, dataCountries]);
 
   useEffect(() => {
