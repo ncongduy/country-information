@@ -7,7 +7,11 @@ import CardItem from './CardItem';
 import picture from '../../../assets/img/background.jpg';
 
 CardList.propTypes = {
-  country: PropTypes.object.isRequired,
+  country: PropTypes.object,
+};
+
+CardList.defaultProps = {
+  country: {},
 };
 
 const styles = {
@@ -43,6 +47,8 @@ const styles = {
 
 function CardList({ country }) {
   const data = useMemo(() => {
+    if (Object.keys(country).length === 0) return [];
+
     return [
       {
         category: 'names',
@@ -98,7 +104,7 @@ function CardList({ country }) {
           <CardMedia
             component="img"
             height="194"
-            image={country.flags.svg || country.flags.png}
+            image={country?.flags?.svg || country?.flags?.png}
             alt="National flag"
           />
         </Paper>
