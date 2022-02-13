@@ -1,0 +1,6 @@
+- use type any at renderValue function in CardList.tsx
+- use type any at CardItem function in CardItem.tsx
+- use type any at checkData function in index.tsx folder Country
+- use type any at rows, columns, page, rowsPerPage in TbBody.tsx
+- use type any in TbHead.tsx
+- use type any in index.tsx folder Home

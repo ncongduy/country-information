@@ -1,5 +1,7 @@
 // Your code here
 class FetchApi {
+  baseUrl: string;
+
   constructor() {
     this.baseUrl = 'https://restcountries.com/v3.1/';
   }
@@ -16,7 +18,7 @@ class FetchApi {
     }
   }
 
-  async searchCountry(countryName) {
+  async searchCountry(countryName: string) {
     try {
       const fetchData = await fetch(`${this.baseUrl}/name/${countryName}`);
       if (!fetchData.ok) throw new Error(`${fetchData.status} Can not fetch data`);

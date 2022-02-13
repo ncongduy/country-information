@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 
 import fetchData from './fechApi';
+import type { Countries } from '../types';
 
 function useCountries() {
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState<Countries[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -23,4 +24,4 @@ function useCountries() {
   return [countries, isLoading, error];
 }
 
-export default useCountries;
+export { useCountries };

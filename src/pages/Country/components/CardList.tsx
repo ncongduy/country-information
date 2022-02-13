@@ -1,17 +1,14 @@
 import { useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Card, CardMedia, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import CardItem from './CardItem';
 import picture from '../../../assets/img/background.jpg';
 
-CardList.propTypes = {
-  country: PropTypes.object,
-};
+import type { Item, Country, Currencies } from '../../../types';
 
-CardList.defaultProps = {
-  country: {},
+type CardListProps = {
+  country: Partial<Country>;
 };
 
 const styles = {
@@ -45,8 +42,8 @@ const styles = {
   },
 };
 
-function CardList({ country }) {
-  const data = useMemo(() => {
+function CardList({ country }: CardListProps) {
+  const data = useMemo<Item[]>(() => {
     if (Object.keys(country).length === 0) return [];
 
     return [
@@ -78,18 +75,21 @@ function CardList({ country }) {
     ];
   }, [country]);
 
-  const renderValue = useCallback((value) => {
+  const renderValue = useCallback((value: Item) => {
     if (!value.content) return '';
 
     switch (value.category) {
       case 'names':
       case 'borders':
+        if (!Array.isArray(value.content)) return '';
         return value.content.join(', ');
       case 'region':
         return value.content;
       case 'currencies':
-        const keyCurrencies = Object.keys(value.content)[0];
-        return value.content[keyCurrencies]?.name;
+        const valueContent = value.content as Currencies;
+        if (Object.keys(valueContent).length === 0) return '';
+        const keyCurrencies: string = Object.keys(valueContent)[0];
+        return valueContent[keyCurrencies].name;
       case 'languages':
         return Object.values(value.content).join(', ');
       default:
@@ -110,7 +110,7 @@ function CardList({ country }) {
         </Paper>
 
         <ul>
-          {data.map((item) => (
+          {data.map((item: Item) => (
             <CardItem key={item.category} item={item} renderValue={renderValue} />
           ))}
         </ul>

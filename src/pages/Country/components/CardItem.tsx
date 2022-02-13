@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CardActions, CardContent, Collapse, IconButton } from '@mui/material';
+import { IconButtonProps } from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 
-CardItem.propTypes = {
-  item: PropTypes.object.isRequired,
-  renderValue: PropTypes.func,
-};
-
-CardItem.defaultProps = {
-  renderValue: null,
-};
+import type { Item, Currencies } from '../../../types';
 
 // Material UI
-const ExpandMore = styled((props) => {
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -25,7 +22,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-function CardItem({ item, renderValue }) {
+// Component
+type CardItemProps = {
+  item: Item;
+  renderValue: (value: Item) => string | Currencies | { [key: string]: string } | string[];
+};
+
+function CardItem({ item, renderValue }: CardItemProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -46,7 +49,7 @@ function CardItem({ item, renderValue }) {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>{typeof renderValue === 'function' && renderValue(item)}</CardContent>
+        <CardContent>{renderValue(item)}</CardContent>
       </Collapse>
     </li>
   );

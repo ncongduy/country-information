@@ -9,6 +9,9 @@ import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchALLCountriesByRedux } from '../../redux/actions';
 
+import type { RootStore } from '../../redux/store';
+import type { ColumnsTbHead, Countries } from '../../types';
+
 const styles = {
   paper: {
     width: '100%',
@@ -25,23 +28,7 @@ const styles = {
 };
 
 function HomePage() {
-  //  set up local state
-  const [columns] = useState(() => [
-    { id: 'flag', label: 'Flag', minWidth: 160 },
-    { id: 'name', label: 'Name', minWidth: 160 },
-    { id: 'capital', label: 'Capital', minWidth: 160 },
-    { id: 'region', label: 'Region', minWidth: 160 },
-    {
-      id: 'population',
-      label: 'Population',
-      minWidth: 160,
-      format: (value) => value.toLocaleString('en-US'),
-    },
-  ]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  //
+  //---------------------------------------------------------------------------
   // use custom hooks
   //
   // const [countries, isLoading, error] = useCountries();
@@ -56,37 +43,53 @@ function HomePage() {
   //   }));
   //   setRows(data);
   // }, [countries]);
+  // -------------------------------------------------------------------------
 
-  //
+  //  set up local state
+  const columns = useMemo<ColumnsTbHead>(
+    () => [
+      { id: 'flag', label: 'Flag', minWidth: 160 },
+      { id: 'name', label: 'Name', minWidth: 160 },
+      { id: 'capital', label: 'Capital', minWidth: 160 },
+      { id: 'region', label: 'Region', minWidth: 160 },
+      {
+        id: 'population',
+        label: 'Population',
+        minWidth: 160,
+        format: (value: number): string => value.toLocaleString('en-US'),
+      },
+    ],
+    []
+  );
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   // use Redux-Thunk to fetch data countries
-  //
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.countries.isLoading);
-  const dataCountries = useSelector((state) => state.countries.data);
-  const error = useSelector((state) => state.countries.error);
+  const isLoading = useSelector((state: RootStore) => state.countries.isLoading);
+  const dataCountries = useSelector((state: RootStore) => state.countries.data);
+  const error = useSelector((state: RootStore) => state.countries.error);
 
   const rows = useMemo(() => {
-    if (!dataCountries) return [];
-
-    return dataCountries.map((country) => ({
+    return dataCountries.map((country: Countries) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
       population: country?.population,
-      region: country?.continents[0],
+      region: country?.region,
       capital: country?.capital,
     }));
   }, [dataCountries]);
 
   useEffect(() => {
-    if (dataCountries) return;
+    if (dataCountries.length !== 0) return;
     dispatch(fetchALLCountriesByRedux());
   }, [dispatch, dataCountries]);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };

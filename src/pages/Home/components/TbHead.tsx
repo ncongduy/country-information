@@ -1,13 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { TableCell, TableHead, TableRow } from '@mui/material';
 
-TbHead.propTypes = {
-  columns: PropTypes.array,
-};
+import type { ColumnsTbHead, ColumnItem } from '../../../types';
 
-TbHead.defaultProps = {
-  columns: [],
+type TbHeadProps = {
+  columns: ColumnsTbHead;
 };
 
 const styles = {
@@ -22,7 +18,7 @@ const styles = {
   },
 };
 
-function TbHead({ columns }) {
+function TbHead({ columns }: TbHeadProps) {
   return (
     <TableHead>
       <TableRow>
@@ -32,12 +28,8 @@ function TbHead({ columns }) {
       </TableRow>
 
       <TableRow>
-        {columns.map((column) => (
-          <TableCell
-            sx={styles.menu}
-            key={column.id}
-            style={{ top: 57, minWidth: column.minWidth }}
-          >
+        {columns.map((column: ColumnItem) => (
+          <TableCell sx={styles.menu} key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
             {column.label}
           </TableCell>
         ))}

@@ -1,17 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Stack, Alert, AlertTitle } from '@mui/material';
 
-Error.propTypes = {
-  error: PropTypes.string,
+type ErrorType = {
+  error: string;
 };
 
-Error.defaultProps = {
-  error: 'Error',
-};
-
-function Error({ error }) {
+function Error({ error }: ErrorType) {
   return (
     <Stack sx={{ width: '100%' }} spacing={2}>
       <Alert severity="error">

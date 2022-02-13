@@ -2,11 +2,14 @@
 import { useEffect, useState } from 'react';
 
 import fetchData from './fechApi';
+import type { Country } from '../types';
 
-function useCountry(nameCountry) {
-  const [country, setCountry] = useState({});
+type UseCountryState = Partial<Country>;
+
+function useCountry(nameCountry: string) {
+  const [country, setCountry] = useState<UseCountryState>({});
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -23,4 +26,4 @@ function useCountry(nameCountry) {
   return [country, isLoading, error];
 }
 
-export default useCountry;
+export { useCountry };

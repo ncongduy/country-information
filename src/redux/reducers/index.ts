@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-
 import allCountriesReducer from './allCountriesReducer';
 import countryReducer from './countryReducer';
 
