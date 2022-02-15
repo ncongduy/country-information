@@ -1,4 +1,4 @@
-import { Box, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
 import type { ColumnsTbHead, ColumnItem } from '../../../types';
 
@@ -13,7 +13,7 @@ const styles = {
     fontWeight: 700,
   },
 
-  box: {
+  paper: {
     maxWidth: '50%',
     margin: '0 auto',
   },
@@ -35,14 +35,14 @@ function TbHead({ columns, onSearch }: TbHeadProps) {
     <TableHead>
       <TableRow>
         <TableCell sx={styles.countries} align="center" colSpan={5}>
-          <Box sx={styles.box}>
+          <Paper sx={styles.paper} elevation={3}>
             <TextField
               onChange={handleChange}
               fullWidth
               label="Enter country name here"
               id="fullWidth"
             />
-          </Box>
+          </Paper>
         </TableCell>
       </TableRow>
 

@@ -18,7 +18,7 @@ const styles = {
   },
 
   tableContainer: {
-    maxHeight: 'calc(100vh - 4rem)',
+    maxHeight: 'calc(100vh - 4rem - 4rem)', // 4rem tablePagination, 4rem HeaderApp
     padding: '0 1rem',
   },
 
@@ -118,7 +118,7 @@ function HomePage() {
   }
 
   return (
-    <Paper sx={styles.paper}>
+    <Paper sx={styles.paper} elevation={0}>
       <TableContainer sx={styles.tableContainer}>
         <Table stickyHeader aria-label="sticky table">
           <TbHead columns={columns} onSearch={handleSearchCountry} />
