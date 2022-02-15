@@ -1,4 +1,4 @@
-import { Box, Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
 import type { ColumnsTbHead, ColumnItem } from '../../../types';
 

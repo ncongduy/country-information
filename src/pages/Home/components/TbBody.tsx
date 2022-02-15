@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { TableBody, TableCell, TableRow } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
 import type { RowTbBody, RowListTbBody, ColumnItem, ColumnsTbHead } from '../../../types';
@@ -11,22 +12,42 @@ type TbBodyProps = {
   rowsPerPage: number;
 };
 
+const styles = {
+  linkLight: {
+    textDecoration: 'none',
+    color: '#01579b',
+  },
+
+  linkDark: {
+    textDecoration: 'none',
+    color: '#ff9800',
+  },
+};
+
 function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
-  const renderValue = useCallback((col, value) => {
-    if (col.id === 'flag') {
-      return <img src={value} alt={`Flag of nation`} width="50" />;
-    } else if (col.format && typeof value === 'number') {
-      return col.format(value);
-    } else if (col.id === 'name') {
-      return (
-        <Link to={`/${value}`} style={{ textDecoration: 'none', color: 'blue' }}>
-          {value}
-        </Link>
-      );
-    } else {
-      return value;
-    }
-  }, []);
+  const theme = useTheme();
+
+  const renderValue = useCallback(
+    (col, value) => {
+      if (col.id === 'flag') {
+        return <img src={value} alt={`Flag of nation`} width="80rem" />;
+      } else if (col.format && typeof value === 'number') {
+        return col.format(value);
+      } else if (col.id === 'name') {
+        return (
+          <Link
+            to={`/${value}`}
+            style={theme.palette.mode === 'dark' ? styles.linkDark : styles.linkLight}
+          >
+            {value}
+          </Link>
+        );
+      } else {
+        return value;
+      }
+    },
+    [theme.palette.mode]
+  );
 
   return (
     <TableBody>
