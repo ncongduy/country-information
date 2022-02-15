@@ -1,3 +1,9 @@
+import {
+  FETCH_ONE_COUNTRY_START,
+  FETCH_ONE_COUNTRY_SUCCESS,
+  FETCH_ONE_COUNTRY_ERROR,
+} from '../../constant';
+
 export type Currencies = {
   [key: string]: {
     name: string;
@@ -22,32 +28,26 @@ export type Country = {
   };
 };
 
-// type for Reducer
+// type for initialState
 export type StateCountry = {
   data: Country[];
   error: string;
   isLoading: boolean;
 };
 
-export type ActionCountry = {
-  type: string;
-  payload?: string | Country;
-};
-
 // type for Action
 export type CountryActionLoading = {
-  type: string;
+  type: typeof FETCH_ONE_COUNTRY_START;
 };
 
 export type CountryActionSuccess = {
-  type: string;
+  type: typeof FETCH_ONE_COUNTRY_SUCCESS;
   payload: Country;
 };
 
 export type CountryActionError = {
-  type: string;
+  type: typeof FETCH_ONE_COUNTRY_ERROR;
   payload: string;
 };
 
-// type for Dispatch
-export type CountryDispatchType = CountryActionLoading | CountryActionSuccess | CountryActionError;
+export type ActionCountry = CountryActionLoading | CountryActionSuccess | CountryActionError;

@@ -1,6 +1,5 @@
-- use type any at renderValue function in CardList.tsx
-- use type any at CardItem function in CardItem.tsx
-- use type any at checkData function in index.tsx folder Country
-- use type any at rows, columns, page, rowsPerPage in TbBody.tsx
-- use type any in TbHead.tsx
-- use type any in index.tsx folder Home
+- check acessibility for Material UI component: done
+- fix bug Netlify: done
+- fix according advice from teaching assistant: done
+- refactor according Duy instructor example: done
+- Implement a search bar to search for a country
