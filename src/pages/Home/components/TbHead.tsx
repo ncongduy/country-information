@@ -1,9 +1,10 @@
-import { TableCell, TableHead, TableRow } from '@mui/material';
+import { Box, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
 import type { ColumnsTbHead, ColumnItem } from '../../../types';
 
 type TbHeadProps = {
   columns: ColumnsTbHead;
+  onSearch: (countryName: string) => void;
 };
 
 const styles = {
@@ -12,19 +13,36 @@ const styles = {
     fontWeight: 700,
   },
 
+  box: {
+    maxWidth: '50%',
+    margin: '0 auto',
+  },
+
   menu: {
     backgroundColor: '#203663',
     color: '#fff',
-    top: '3.56rem',
+    top: '5.5rem',
   },
 };
 
-function TbHead({ columns }: TbHeadProps) {
+function TbHead({ columns, onSearch }: TbHeadProps) {
+  function handleChange(evt: React.ChangeEvent<HTMLInputElement>): void {
+    if (!onSearch) return;
+    onSearch(evt.target.value);
+  }
+
   return (
     <TableHead>
       <TableRow>
         <TableCell sx={styles.countries} align="center" colSpan={5}>
-          Countries
+          <Box sx={styles.box}>
+            <TextField
+              onChange={handleChange}
+              fullWidth
+              label="Enter country name here"
+              id="fullWidth"
+            />
+          </Box>
         </TableCell>
       </TableRow>
 

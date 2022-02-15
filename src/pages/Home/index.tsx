@@ -10,7 +10,7 @@ import Error from '../../components/Error';
 import { fetchALLCountriesByRedux } from '../../redux/actions';
 
 import type { RootState } from '../../redux/store';
-import type { ColumnsTbHead, Countries } from '../../types';
+import type { ColumnsTbHead, Countries, RowListTbBody } from '../../types';
 
 const styles = {
   paper: {
@@ -61,6 +61,15 @@ function HomePage() {
     ],
     []
   );
+  const [rows, setRows] = useState<RowListTbBody>([
+    {
+      flag: '',
+      name: '',
+      population: 0,
+      region: '',
+      capital: '',
+    },
+  ]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -70,7 +79,7 @@ function HomePage() {
   const dataCountries = useSelector((state: RootState) => state.countries.data);
   const error = useSelector((state: RootState) => state.countries.error);
 
-  const rows = useMemo(() => {
+  const data = useMemo(() => {
     return dataCountries.map((country: Countries) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
@@ -81,17 +90,25 @@ function HomePage() {
   }, [dataCountries]);
 
   useEffect(() => {
-    if (dataCountries.length !== 0) return;
-    dispatch(fetchALLCountriesByRedux());
-  }, [dispatch, dataCountries]);
+    if (dataCountries.length !== 0) {
+      setRows(data);
+    } else {
+      dispatch(fetchALLCountriesByRedux());
+    }
+  }, [dispatch, dataCountries, data]);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (event: unknown, newPage: number): void => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleSearchCountry = (countryName: string): void => {
+    const newData = data.filter((row) => row.name.toLowerCase().includes(countryName.toLowerCase()));
+    setRows(newData);
   };
 
   if (isLoading === true) {
@@ -104,7 +121,7 @@ function HomePage() {
     <Paper sx={styles.paper}>
       <TableContainer sx={styles.tableContainer}>
         <Table stickyHeader aria-label="sticky table">
-          <TbHead columns={columns} />
+          <TbHead columns={columns} onSearch={handleSearchCountry} />
           <TbBody columns={columns} rows={rows} page={page} rowsPerPage={rowsPerPage} />
         </Table>
       </TableContainer>
