@@ -32,7 +32,7 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
     <TableBody>
       {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: RowTbBody) => {
         return (
-          <TableRow key={row.name}>
+          <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
             {columns.map((column: ColumnItem) => {
               const keyObj: string = column.id;
               const value: string | number = row[keyObj];

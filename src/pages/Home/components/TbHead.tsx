@@ -15,6 +15,7 @@ const styles = {
   menu: {
     backgroundColor: '#203663',
     color: '#fff',
+    top: '3.56rem',
   },
 };
 
@@ -29,7 +30,7 @@ function TbHead({ columns }: TbHeadProps) {
 
       <TableRow>
         {columns.map((column: ColumnItem) => (
-          <TableCell sx={styles.menu} key={column.id} style={{ top: 57, minWidth: column.minWidth }}>
+          <TableCell sx={styles.menu} key={column.id} style={{ minWidth: column.minWidth }}>
             {column.label}
           </TableCell>
         ))}

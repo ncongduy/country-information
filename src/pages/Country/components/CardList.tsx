@@ -24,7 +24,7 @@ const styles = {
   },
 
   card: {
-    maxWidth: '20rem',
+    width: '20rem',
   },
 
   link: {
@@ -103,7 +103,7 @@ function CardList({ country }: CardListProps) {
         <Paper elevation={3}>
           <CardMedia
             component="img"
-            height="194"
+            width="200"
             image={country?.flags?.svg || country?.flags?.png}
             alt="National flag"
           />
@@ -114,6 +114,7 @@ function CardList({ country }: CardListProps) {
             <CardItem key={item.category} item={item} renderValue={renderValue} />
           ))}
         </ul>
+
         <Link to="/" style={styles.link}>
           <Button variant="contained" size="large" sx={styles.button}>
             Back
