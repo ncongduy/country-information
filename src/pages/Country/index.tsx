@@ -23,19 +23,16 @@ function CountryPage() {
   const data = useSelector((state: RootState) => state.country.data);
   const error = useSelector((state: RootState) => state.country.error);
 
-  const checkData = useMemo(() => {
-    return data.some((dt: Country): boolean => dt?.name?.common === countryName);
-  }, [data, countryName]);
-
   const dataCountry = useMemo(() => {
+    const checkData = data.some((dt: Country): boolean => dt?.name?.common === countryName);
     if (!checkData) return {};
     return data.filter((dt: Country): boolean => dt?.name?.common === countryName)[0];
-  }, [data, countryName, checkData]);
+  }, [data, countryName]);
 
   useEffect(() => {
-    if (checkData) return;
+    if (Object.keys(dataCountry).length !== 0) return;
     dispatch(fetchCountryByRedux(countryName as string));
-  }, [countryName, dispatch, checkData]);
+  }, [countryName, dataCountry, dispatch]);
 
   if (isLoading) {
     return <Loading />;
