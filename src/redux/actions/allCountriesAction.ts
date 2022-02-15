@@ -1,8 +1,13 @@
 import type { Dispatch } from 'redux';
-import type { Countries, CountriesDispatchType } from '../../types';
+import type { Countries } from '../../types';
+import {
+  FETCH_ALL_COUNTRIES_START,
+  FETCH_ALL_COUNTRIES_SUCCESS,
+  FETCH_ALL_COUNTRIES_ERROR,
+} from '../../constant';
 
 export function fetchALLCountriesByRedux() {
-  return async (dispatch: Dispatch<CountriesDispatchType>) => {
+  return async (dispatch: Dispatch) => {
     try {
       dispatch(fetchAllCountriesStart());
       const fetchData = await fetch(`https://restcountries.com/v3.1/all`);
@@ -18,20 +23,20 @@ export function fetchALLCountriesByRedux() {
 
 export function fetchAllCountriesStart() {
   return {
-    type: 'FETCH_ALL_COUNTRIES_START',
+    type: FETCH_ALL_COUNTRIES_START,
   };
 }
 
 export function fetchAllCountriesSuccess(payload: Countries[]) {
   return {
-    type: 'FETCH_ALL_COUNTRIES_SUCCESS',
+    type: FETCH_ALL_COUNTRIES_SUCCESS,
     payload: payload,
   };
 }
 
 export function fetchAllCountriesError(payload: string) {
   return {
-    type: 'FETCH_ALL_COUNTRIES_ERROR',
+    type: FETCH_ALL_COUNTRIES_ERROR,
     payload: payload,
   };
 }

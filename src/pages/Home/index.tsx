@@ -9,7 +9,7 @@ import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchALLCountriesByRedux } from '../../redux/actions';
 
-import type { RootStore } from '../../redux/store';
+import type { RootState } from '../../redux/store';
 import type { ColumnsTbHead, Countries } from '../../types';
 
 const styles = {
@@ -66,9 +66,9 @@ function HomePage() {
 
   // use Redux-Thunk to fetch data countries
   const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootStore) => state.countries.isLoading);
-  const dataCountries = useSelector((state: RootStore) => state.countries.data);
-  const error = useSelector((state: RootStore) => state.countries.error);
+  const isLoading = useSelector((state: RootState) => state.countries.isLoading);
+  const dataCountries = useSelector((state: RootState) => state.countries.data);
+  const error = useSelector((state: RootState) => state.countries.error);
 
   const rows = useMemo(() => {
     return dataCountries.map((country: Countries) => ({

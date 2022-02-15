@@ -1,4 +1,9 @@
-import type { StateAllCountries, ActionAllCountries, Countries } from '../../types';
+import {
+  FETCH_ALL_COUNTRIES_START,
+  FETCH_ALL_COUNTRIES_SUCCESS,
+  FETCH_ALL_COUNTRIES_ERROR,
+} from '../../constant';
+import type { StateAllCountries, ActionAllCountries } from '../../types';
 
 const initialState = {
   data: [],
@@ -11,12 +16,15 @@ const allCountriesReducer = (
   action: ActionAllCountries
 ): StateAllCountries => {
   switch (action.type) {
-    case 'FETCH_ALL_COUNTRIES_START':
+    case FETCH_ALL_COUNTRIES_START:
       return { ...state, isLoading: true };
-    case 'FETCH_ALL_COUNTRIES_SUCCESS':
-      return { ...state, data: action.payload as Countries[], isLoading: false, error: '' };
-    case 'FETCH_ALL_COUNTRIES_ERROR':
-      return { ...state, error: action.payload as string, isLoading: false };
+
+    case FETCH_ALL_COUNTRIES_SUCCESS:
+      return { ...state, data: action.payload, isLoading: false, error: '' };
+
+    case FETCH_ALL_COUNTRIES_ERROR:
+      return { ...state, error: action.payload, isLoading: false };
+
     default:
       return state;
   }

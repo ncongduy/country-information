@@ -1,3 +1,9 @@
+import {
+  FETCH_ALL_COUNTRIES_START,
+  FETCH_ALL_COUNTRIES_SUCCESS,
+  FETCH_ALL_COUNTRIES_ERROR,
+} from '../../constant';
+
 export type Countries = {
   flags: {
     png: string;
@@ -11,41 +17,26 @@ export type Countries = {
   capital: string;
 };
 
-//
-// type for reducer
-//
+// type for initialState
 export type StateAllCountries = {
   data: Countries[];
   error: string;
   isLoading: boolean;
 };
 
-export type ActionAllCountries = {
-  type: string;
-  payload?: string | Countries[];
-};
-
-//
 // type for action
-//
 export type CountriesActionLoading = {
-  type: string;
+  type: typeof FETCH_ALL_COUNTRIES_START;
 };
 
 export type CountriesActionSuccess = {
-  type: string;
+  type: typeof FETCH_ALL_COUNTRIES_SUCCESS;
   payload: Countries[];
 };
 
 export type CountriesActionError = {
-  type: string;
+  type: typeof FETCH_ALL_COUNTRIES_ERROR;
   payload: string;
 };
 
-//
-// type for dispatch
-//
-export type CountriesDispatchType =
-  | CountriesActionLoading
-  | CountriesActionSuccess
-  | CountriesActionError;
+export type ActionAllCountries = CountriesActionLoading | CountriesActionSuccess | CountriesActionError;

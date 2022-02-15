@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchCountryByRedux } from '../../redux/actions';
 
-import type { RootStore } from '../../redux/store';
+import type { RootState } from '../../redux/store';
 import type { Country } from '../../types';
 
 function CountryPage() {
@@ -19,9 +19,9 @@ function CountryPage() {
 
   // use Redux to fetch API
   const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootStore) => state.country.isLoading);
-  const data = useSelector((state: RootStore) => state.country.data);
-  const error = useSelector((state: RootStore) => state.country.error);
+  const isLoading = useSelector((state: RootState) => state.country.isLoading);
+  const data = useSelector((state: RootState) => state.country.data);
+  const error = useSelector((state: RootState) => state.country.error);
 
   const checkData = useMemo(() => {
     return data.some((dt: Country): boolean => dt?.name?.common === countryName);
