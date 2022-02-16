@@ -2,8 +2,9 @@
 export type ColumnItem = {
   id: string;
   label: string;
-  minWidth: number;
+  minWidth: string;
   format?: (value: number) => string;
+  align?: 'left' | 'center' | 'right' | 'justify' | 'inherit' | undefined;
 };
 
 export type ColumnsTbHead = ColumnItem[];

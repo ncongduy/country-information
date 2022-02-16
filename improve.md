@@ -4,10 +4,10 @@
 - refactor according Duy instructor example: done
 - Convert your hook to use either thunk or saga to fetch the data: done
 - Implement a search bar to search for a country: done
+- Switch theme of the app with Context API: done
 - ------------------------------------------------------------------------
 
-- Switch theme of the app with Context API
-- use <Button> instead <Link> in CountryPage component
 - Add/remove the countries to/from favorite list using Redux, Redux-saga, Redux-thunk
 - Sort the table based on name, region, etc.
 - Maker sure the theme and favorite list is saved in local storage to persist across refreshes of the page (you can use thunk or saga to implement side effects that get state from the store and save it to local storage)
+- use <Button> instead <Link> in CountryPage component

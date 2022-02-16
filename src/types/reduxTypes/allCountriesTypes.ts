@@ -15,6 +15,7 @@ export type Countries = {
   population: number;
   region: string;
   capital: string;
+  favorite: string;
 };
 
 // type for initialState
