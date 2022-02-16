@@ -9,10 +9,11 @@ import TbBody from './components/TbBody';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchALLCountriesByRedux } from '../../redux/actions';
+import { ThemeModeContext } from '../../contexts/ThemeContext';
 
 import type { RootState } from '../../redux/store';
 import type { ColumnsTbHead, Countries, RowListTbBody } from '../../types';
-import { ThemeContextType, ThemeModeContext } from '../../contexts/ThemeContext';
+import type { ThemeContextType } from '../../types';
 
 const styles = {
   paper: {

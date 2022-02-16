@@ -7,10 +7,11 @@ import CardList from './components/CardList';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchCountryByRedux } from '../../redux/actions';
-import { ThemeModeContext, ThemeContextType } from '../../contexts/ThemeContext';
+import { ThemeModeContext } from '../../contexts/ThemeContext';
 
 import type { RootState } from '../../redux/store';
 import type { Country } from '../../types';
+import type { ThemeContextType } from '../../types';
 
 function CountryPage() {
   const { countryName } = useParams();

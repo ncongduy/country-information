@@ -1,10 +1,10 @@
 import { createContext, useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export type ThemeContextType = {
-  toggleColorMode: () => void;
-  countryName?: string;
-  setNameCountry: (name?: string) => void;
+import type { ThemeContextType } from '../types';
+
+type Props = {
+  children?: React.ReactNode;
 };
 
 export const ThemeModeContext = createContext<ThemeContextType>({
@@ -13,7 +13,7 @@ export const ThemeModeContext = createContext<ThemeContextType>({
   setNameCountry: () => {},
 });
 
-export default function ThemeContext({ children }: any) {
+export default function ThemeContext({ children }: Props) {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
   const [countryName, setCountryName] = useState<string | undefined>('');
 
