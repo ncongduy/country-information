@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
-import { TableBody, TableCell, TableRow } from '@mui/material';
+import { IconButton, TableBody, TableCell, TableRow } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Link } from 'react-router-dom';
 
 import type { RowTbBody, RowListTbBody, ColumnItem, ColumnsTbHead } from '../../../types';
@@ -29,21 +30,32 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
 
   const renderValue = useCallback(
     (col, value) => {
-      if (col.id === 'flag') {
-        return <img src={value} alt={`Flag of nation`} width="80rem" />;
-      } else if (col.format && typeof value === 'number') {
-        return col.format(value);
-      } else if (col.id === 'name') {
-        return (
-          <Link
-            to={`/${value}`}
-            style={theme.palette.mode === 'dark' ? styles.linkDark : styles.linkLight}
-          >
-            {value}
-          </Link>
-        );
-      } else {
-        return value;
+      switch (col.id) {
+        case 'flag':
+          return <img src={value} alt={`Flag of nation`} width="80rem" />;
+
+        case 'name':
+          return (
+            <Link
+              to={`/${value}`}
+              style={theme.palette.mode === 'dark' ? styles.linkDark : styles.linkLight}
+            >
+              <b>{value}</b>
+            </Link>
+          );
+
+        case 'population':
+          return col.format(value);
+
+        case 'favorite':
+          return (
+            <IconButton>
+              <FavoriteBorderIcon />
+            </IconButton>
+          );
+
+        default:
+          return value;
       }
     },
     [theme.palette.mode]
@@ -57,7 +69,11 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
             {columns.map((column: ColumnItem) => {
               const keyObj: string = column.id;
               const value: string | number = row[keyObj];
-              return <TableCell key={keyObj}>{renderValue(column, value)}</TableCell>;
+              return (
+                <TableCell key={keyObj} align={column.align}>
+                  {renderValue(column, value)}
+                </TableCell>
+              );
             })}
           </TableRow>
         );
