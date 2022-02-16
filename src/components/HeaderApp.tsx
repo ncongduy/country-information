@@ -1,13 +1,15 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { Badge } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { ThemeModeContext } from '../contexts/ThemeContext';
-import { Link } from 'react-router-dom';
 
 const styles = {
   box: {
@@ -53,9 +55,16 @@ function HeaderApp() {
       <h1>{themeMode.countryName ? themeMode.countryName : 'Countries in the world'}</h1>
       <Box sx={styles.icons}>
         <Link to={'/'}>
-          <HomeIcon sx={theme.palette.mode === 'dark' ? styles.homeLight : styles.homeDark} />
+          <IconButton size="large" aria-label="home button" color="inherit">
+            <HomeIcon sx={theme.palette.mode === 'dark' ? styles.homeLight : styles.homeDark} />
+          </IconButton>
         </Link>
-        <IconButton sx={{ ml: 1 }} onClick={themeMode.toggleColorMode} color="inherit">
+        <IconButton size="large" aria-label="show number of favorite" color="inherit">
+          <Badge badgeContent={8} color="error">
+            <FavoriteIcon />
+          </Badge>
+        </IconButton>
+        <IconButton size="large" sx={{ ml: 1 }} onClick={themeMode.toggleColorMode} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>

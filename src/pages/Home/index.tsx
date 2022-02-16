@@ -51,15 +51,20 @@ function HomePage() {
   //  set up local state
   const columns = useMemo<ColumnsTbHead>(
     () => [
-      { id: 'flag', label: 'Flag', minWidth: 160 },
-      { id: 'name', label: 'Name', minWidth: 160 },
-      { id: 'capital', label: 'Capital', minWidth: 160 },
-      { id: 'region', label: 'Region', minWidth: 160 },
+      { id: 'flag', label: 'Flag', minWidth: '10rem' },
+      { id: 'name', label: 'Name', minWidth: '10rem' },
+      { id: 'capital', label: 'Capital', minWidth: '10rem' },
+      { id: 'region', label: 'Region', minWidth: '10rem' },
       {
         id: 'population',
         label: 'Population',
-        minWidth: 160,
+        minWidth: '10rem',
         format: (value: number): string => value.toLocaleString('en-US'),
+      },
+      {
+        id: 'favorite',
+        label: 'Favorite',
+        minWidth: '8rem',
       },
     ],
     []
@@ -90,9 +95,10 @@ function HomePage() {
     return dataCountries.map((country: Countries) => ({
       flag: country?.flags?.svg || country?.flags?.png,
       name: country?.name?.common,
-      population: country?.population,
-      region: country?.region,
       capital: country?.capital,
+      region: country?.region,
+      population: country?.population,
+      favorite: 'normal',
     }));
   }, [dataCountries]);
 

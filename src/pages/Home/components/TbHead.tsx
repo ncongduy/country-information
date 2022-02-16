@@ -34,7 +34,7 @@ function TbHead({ columns, onSearch }: TbHeadProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={styles.countries} align="center" colSpan={5}>
+        <TableCell sx={styles.countries} align="center" colSpan={6}>
           <Paper sx={styles.paper} elevation={3}>
             <TextField
               onChange={handleChange}
