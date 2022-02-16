@@ -6,7 +6,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { ColorModeContext } from '../contexts/ThemeContext';
+import { ThemeModeContext } from '../contexts/ThemeContext';
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -46,16 +46,16 @@ const styles = {
 
 function HeaderApp() {
   const theme = useTheme();
-  const colorMode = useContext(ColorModeContext);
+  const themeMode = useContext(ThemeModeContext);
 
   return (
     <Box sx={styles.box}>
-      <h1>Countries in the world</h1>
+      <h1>{themeMode.countryName ? themeMode.countryName : 'Countries in the world'}</h1>
       <Box sx={styles.icons}>
         <Link to={'/'}>
           <HomeIcon sx={theme.palette.mode === 'dark' ? styles.homeLight : styles.homeDark} />
         </Link>
-        <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        <IconButton sx={{ ml: 1 }} onClick={themeMode.toggleColorMode} color="inherit">
           {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>

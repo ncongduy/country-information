@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 // import useCountries from '../../custom-hooks/useCountries';
 import TbHead from './components/TbHead';
@@ -11,6 +12,7 @@ import { fetchALLCountriesByRedux } from '../../redux/actions';
 
 import type { RootState } from '../../redux/store';
 import type { ColumnsTbHead, Countries, RowListTbBody } from '../../types';
+import { ThemeContextType, ThemeModeContext } from '../../contexts/ThemeContext';
 
 const styles = {
   paper: {
@@ -73,6 +75,10 @@ function HomePage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  // use ThemeContext
+  const { countryName } = useParams();
+  const themeMode = useContext<ThemeContextType>(ThemeModeContext);
+
   // use Redux-Thunk to fetch data countries
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => state.countries.isLoading);
@@ -89,6 +95,7 @@ function HomePage() {
     }));
   }, [dataCountries]);
 
+  // fetch API
   useEffect(() => {
     if (dataCountries.length !== 0) {
       setRows(data);
@@ -96,6 +103,11 @@ function HomePage() {
       dispatch(fetchALLCountriesByRedux());
     }
   }, [dispatch, dataCountries, data]);
+
+  // update h1 in HeaderApp component
+  useEffect(() => {
+    themeMode.setNameCountry(countryName as undefined);
+  }, [themeMode, countryName]);
 
   const handleChangePage = (event: unknown, newPage: number): void => {
     setPage(newPage);
