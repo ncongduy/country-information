@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -90,9 +90,16 @@ function HomePage() {
   const isLoading = useSelector((state: RootState) => state.countries.isLoading);
   const dataCountries = useSelector((state: RootState) => state.countries.data);
   const error = useSelector((state: RootState) => state.countries.error);
+
+  // variable favorite country feature
   const favoriteCountryList = useSelector((state: RootState) => state.favorite.favorite);
   const displayFavoriteCountry = useSelector((state: RootState) => state.favorite.display);
 
+  // variable sort data feature
+  const categorySort = useSelector((state: RootState) => state.sort.currentSort);
+  const typeSort = useSelector((state: RootState) => state.sort.sortData);
+
+  // data to render UI
   const data = useMemo(() => {
     return dataCountries.map((country: Countries) => ({
       flag: country?.flags?.svg || country?.flags?.png,
@@ -127,6 +134,24 @@ function HomePage() {
     }
   }, [displayFavoriteCountry, data, favoriteCountryList]);
 
+  // function sort data
+  const sortData: () => void = useCallback(() => {
+    if (typeSort === 'asc') {
+      const sortedData = [...data].sort((a, b) => (a[categorySort] > b[categorySort] ? 1 : -1));
+      setRows(sortedData);
+    } else {
+      const sortedData = [...data].sort((a, b) => (a[categorySort] < b[categorySort] ? 1 : -1));
+      setRows(sortedData);
+    }
+  }, [categorySort, data, typeSort]);
+
+  // sort list data
+  useEffect(() => {
+    if (!data) return;
+    sortData();
+  }, [data, sortData]);
+
+  // function handle event
   const handleChangePage = (event: unknown, newPage: number): void => {
     setPage(newPage);
   };
@@ -141,6 +166,7 @@ function HomePage() {
     setRows(newData);
   };
 
+  // render UI when loading or error
   if (isLoading === true) {
     return <Loading />;
   } else if (error) {
@@ -151,7 +177,7 @@ function HomePage() {
     <Paper sx={styles.paper} elevation={0}>
       <TableContainer sx={styles.tableContainer}>
         <Table stickyHeader aria-label="sticky table">
-          <TbHead columns={columns} onSearch={handleSearchCountry} />
+          <TbHead columns={columns} onSearch={handleSearchCountry} sort={sortData} />
           <TbBody columns={columns} rows={rows} page={page} rowsPerPage={rowsPerPage} />
         </Table>
       </TableContainer>

@@ -2,8 +2,8 @@ import { SET_CURRENT_SORT, SET_SORT_DATA } from '../../constant';
 import type { SortState, SortAction } from '../../types';
 
 const initialState = {
-  currentSort: 'name',
-  sortData: 'asc',
+  currentSort: 'name' as 'name',
+  sortData: 'asc' as 'asc',
 };
 
 const sortReducer = (state: SortState = initialState, action: SortAction): SortState => {

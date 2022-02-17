@@ -5,12 +5,14 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import { toggleDisplay } from '../../../redux/actions/favoriteCountryAction';
 import { setCurrentSort, setSortData } from '../../../redux/actions/sortAction';
+
 import type { RootState } from '../../../redux/store';
-import type { ColumnsTbHead, ColumnItem } from '../../../types';
+import type { ColumnsTbHead, ColumnItem, CategorySort } from '../../../types';
 
 type TbHeadProps = {
   columns: ColumnsTbHead;
   onSearch: (countryName: string) => void;
+  sort: () => void;
 };
 
 const styles = {
@@ -31,7 +33,7 @@ const styles = {
   },
 };
 
-function TbHead({ columns, onSearch }: TbHeadProps) {
+function TbHead({ columns, onSearch, sort }: TbHeadProps) {
   const currentSort = useSelector((state: RootState) => state.sort.currentSort);
   const sortData = useSelector((state: RootState) => state.sort.sortData);
   const dispatch = useDispatch();
@@ -42,12 +44,14 @@ function TbHead({ columns, onSearch }: TbHeadProps) {
     dispatch(toggleDisplay(false));
   }
 
-  function handleSortClick(column: string): void {
+  function handleSortClick(column: CategorySort): void {
     dispatch(setCurrentSort(column));
     if (sortData === 'asc') {
       dispatch(setSortData('dsc'));
+      sort();
     } else {
       dispatch(setSortData('asc'));
+      sort();
     }
   }
 
@@ -75,9 +79,9 @@ function TbHead({ columns, onSearch }: TbHeadProps) {
               <div>
                 <IconButton
                   color={column.id === currentSort ? 'error' : 'info'}
-                  onClick={() => handleSortClick(column.id)}
+                  onClick={() => handleSortClick(column.id as CategorySort)}
                 >
-                  {sortData === 'asc' ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+                  {sortData === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
                 </IconButton>
                 {column.label}
               </div>
