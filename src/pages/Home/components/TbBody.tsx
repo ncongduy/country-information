@@ -50,7 +50,11 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
     (row: RowTbBody, col: ColumnItem, value: string | number) => {
       switch (col.id) {
         case 'flag':
-          return <img src={value as string} alt={`Flag of nation`} width="80rem" />;
+          return (
+            <Link to={`/${row.name}`}>
+              <img src={value as string} alt={`Flag of nation`} width="80rem" />
+            </Link>
+          );
 
         case 'name':
           return (
