@@ -63,23 +63,14 @@ function CardList({ country }: CardListProps) {
         alignItems: 'center',
       },
 
+      img: {
+        width: '30%',
+      },
+
       card: {
-        width: '24rem',
-        margin: '0.5rem 0',
+        width: '50%',
+        margin: '1rem',
         borderRadius: '0.4rem',
-      },
-
-      link: {
-        textDecoration: 'none',
-        padding: '1rem 0',
-
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-
-      button: {
-        width: '10rem',
       },
     };
   }, [theme]);
@@ -108,27 +99,20 @@ function CardList({ country }: CardListProps) {
 
   return (
     <Paper sx={styles.paper} elevation={0}>
+      <Paper elevation={3} sx={styles.img}>
+        <CardMedia
+          component="img"
+          width="100%"
+          image={country?.flags?.svg || country?.flags?.png}
+          alt="National flag"
+        />
+      </Paper>
       <Card sx={styles.card}>
-        <Paper elevation={3}>
-          <CardMedia
-            component="img"
-            width="100%"
-            image={country?.flags?.svg || country?.flags?.png}
-            alt="National flag"
-          />
-        </Paper>
-
         <ul>
           {data.map((item: Item) => (
             <CardItem key={item.category} item={item} renderValue={renderValue} />
           ))}
         </ul>
-
-        <Link to="/" style={styles.link}>
-          <Button variant="contained" size="large" sx={styles.button}>
-            Back
-          </Button>
-        </Link>
       </Card>
     </Paper>
   );
