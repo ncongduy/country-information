@@ -1,7 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { IconButton, Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import { toggleDisplay } from '../../../redux/actions/favoriteCountryAction';
+import { setCurrentSort, setSortData } from '../../../redux/actions/sortAction';
+import type { RootState } from '../../../redux/store';
 import type { ColumnsTbHead, ColumnItem } from '../../../types';
 
 type TbHeadProps = {
@@ -28,12 +32,23 @@ const styles = {
 };
 
 function TbHead({ columns, onSearch }: TbHeadProps) {
+  const currentSort = useSelector((state: RootState) => state.sort.currentSort);
+  const sortData = useSelector((state: RootState) => state.sort.sortData);
   const dispatch = useDispatch();
 
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>): void {
     if (!onSearch) return;
     onSearch(evt.target.value);
     dispatch(toggleDisplay(false));
+  }
+
+  function handleSortClick(column: string): void {
+    dispatch(setCurrentSort(column));
+    if (sortData === 'asc') {
+      dispatch(setSortData('dsc'));
+    } else {
+      dispatch(setSortData('asc'));
+    }
   }
 
   return (
@@ -54,7 +69,19 @@ function TbHead({ columns, onSearch }: TbHeadProps) {
       <TableRow>
         {columns.map((column: ColumnItem) => (
           <TableCell sx={styles.menu} key={column.id} style={{ minWidth: column.minWidth }}>
-            {column.label}
+            {column.label === 'Flag' || column.label === 'Favorite' ? (
+              column.label
+            ) : (
+              <div>
+                <IconButton
+                  color={column.id === currentSort ? 'error' : 'info'}
+                  onClick={() => handleSortClick(column.id)}
+                >
+                  {sortData === 'asc' ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+                </IconButton>
+                {column.label}
+              </div>
+            )}
           </TableCell>
         ))}
       </TableRow>
