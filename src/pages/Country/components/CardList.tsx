@@ -1,5 +1,5 @@
 import { useMemo, useCallback } from 'react';
-import { Button, Card, CardMedia, Paper } from '@mui/material';
+import { Card, CardMedia, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import CardItem from './CardItem';
@@ -7,7 +7,6 @@ import background from '../../../assets/img/background.jpg';
 import darkBackground from '../../../assets/img/darkBackground.jpg';
 
 import type { Item, Country, Currencies } from '../../../types';
-import { Link } from 'react-router-dom';
 
 type CardListProps = {
   country: Partial<Country>;
