@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Badge } from '@mui/material';
@@ -10,6 +11,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import { ThemeModeContext } from '../contexts/ThemeContext';
+import { toggleDisplay } from '../redux/actions/favoriteCountryAction';
+import type { RootState } from '../redux/store';
 
 const styles = {
   box: {
@@ -49,18 +52,30 @@ const styles = {
 function HeaderApp() {
   const theme = useTheme();
   const themeMode = useContext(ThemeModeContext);
+  const dispatch = useDispatch();
+  const favoriteList = useSelector((state: RootState) => state.favorite.favorite);
 
   return (
     <Box sx={styles.box}>
       <h1>{themeMode.countryName ? themeMode.countryName : 'Countries in the world'}</h1>
       <Box sx={styles.icons}>
         <Link to={'/'}>
-          <IconButton size="large" aria-label="home button" color="inherit">
+          <IconButton
+            onClick={() => dispatch(toggleDisplay(false))}
+            size="large"
+            aria-label="home button"
+            color="inherit"
+          >
             <HomeIcon sx={theme.palette.mode === 'dark' ? styles.homeLight : styles.homeDark} />
           </IconButton>
         </Link>
-        <IconButton size="large" aria-label="show number of favorite" color="inherit">
-          <Badge badgeContent={8} color="error">
+        <IconButton
+          onClick={() => dispatch(toggleDisplay(true))}
+          size="large"
+          aria-label="show number of favorite"
+          color="inherit"
+        >
+          <Badge badgeContent={favoriteList.length} color="error">
             <FavoriteIcon />
           </Badge>
         </IconButton>

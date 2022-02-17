@@ -1,5 +1,7 @@
+import { useDispatch } from 'react-redux';
 import { Paper, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
+import { toggleDisplay } from '../../../redux/actions/favoriteCountryAction';
 import type { ColumnsTbHead, ColumnItem } from '../../../types';
 
 type TbHeadProps = {
@@ -26,9 +28,12 @@ const styles = {
 };
 
 function TbHead({ columns, onSearch }: TbHeadProps) {
+  const dispatch = useDispatch();
+
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>): void {
     if (!onSearch) return;
     onSearch(evt.target.value);
+    dispatch(toggleDisplay(false));
   }
 
   return (

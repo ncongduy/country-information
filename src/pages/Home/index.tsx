@@ -90,6 +90,8 @@ function HomePage() {
   const isLoading = useSelector((state: RootState) => state.countries.isLoading);
   const dataCountries = useSelector((state: RootState) => state.countries.data);
   const error = useSelector((state: RootState) => state.countries.error);
+  const favoriteCountryList = useSelector((state: RootState) => state.favorite.favorite);
+  const displayFavoriteCountry = useSelector((state: RootState) => state.favorite.display);
 
   const data = useMemo(() => {
     return dataCountries.map((country: Countries) => ({
@@ -115,6 +117,15 @@ function HomePage() {
   useEffect(() => {
     themeMode.setNameCountry(countryName as undefined);
   }, [themeMode, countryName]);
+
+  // display favorite country
+  useEffect(() => {
+    if (displayFavoriteCountry) {
+      setRows(favoriteCountryList);
+    } else {
+      setRows(data);
+    }
+  }, [displayFavoriteCountry, data, favoriteCountryList]);
 
   const handleChangePage = (event: unknown, newPage: number): void => {
     setPage(newPage);
