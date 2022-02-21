@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Badge } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -10,7 +10,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { ThemeModeContext } from '../contexts/ThemeContext';
+import { ValueContext } from '../contexts';
 import { toggleDisplay } from '../redux/actions/favoriteCountryAction';
 import type { RootState } from '../redux/store';
 
@@ -31,6 +31,11 @@ const styles = {
     position: 'relative',
   },
 
+  heading: {
+    width: '50rem',
+    textAlign: 'center' as 'center',
+  },
+
   icons: {
     display: 'flex',
     alignItems: 'center',
@@ -49,37 +54,46 @@ const styles = {
   },
 };
 
-function HeaderApp() {
+function AppHeader() {
   const theme = useTheme();
-  const themeMode = useContext(ThemeModeContext);
+  const { countryName, toggleColorMode } = useContext(ValueContext);
   const dispatch = useDispatch();
   const favoriteList = useSelector((state: RootState) => state.favorite.favorite);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.box}>
-      <h1>{themeMode.countryName ? themeMode.countryName : 'Countries in the world'}</h1>
+      <h1 style={styles.heading}>{countryName ? countryName : 'Countries in the world'}</h1>
       <Box sx={styles.icons}>
-        <Link to={'/'}>
-          <IconButton
-            onClick={() => dispatch(toggleDisplay(false))}
-            size="large"
-            aria-label="home button"
-            color="inherit"
-          >
-            <HomeIcon sx={theme.palette.mode === 'dark' ? styles.homeLight : styles.homeDark} />
-          </IconButton>
-        </Link>
         <IconButton
-          onClick={() => dispatch(toggleDisplay(true))}
+          onClick={() => {
+            navigate('/');
+            dispatch(toggleDisplay(false));
+          }}
           size="large"
-          aria-label="show number of favorite"
+          aria-label="home button"
           color="inherit"
+          sx={{ ml: 1 }}
+        >
+          <HomeIcon />
+        </IconButton>
+
+        <IconButton
+          onClick={() => {
+            navigate('/');
+            dispatch(toggleDisplay(true));
+          }}
+          size="large"
+          aria-label="show number of favorite country"
+          color="inherit"
+          sx={{ ml: 1 }}
         >
           <Badge badgeContent={favoriteList.length} color="error">
             <FavoriteIcon />
           </Badge>
         </IconButton>
-        <IconButton size="large" sx={{ ml: 1 }} onClick={themeMode.toggleColorMode} color="inherit">
+
+        <IconButton onClick={toggleColorMode} size="large" color="inherit" sx={{ ml: 1 }}>
           {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>
@@ -87,4 +101,4 @@ function HeaderApp() {
   );
 }
 
-export default HeaderApp;
+export default AppHeader;
