@@ -27,7 +27,7 @@ function CountryPage() {
     return data.filter((dt: Country): boolean => dt?.name?.common === countryName)[0];
   }, [data, countryName]);
 
-  // fetch API
+  // fetch API one country
   useEffect(() => {
     if (Object.keys(dataCountry).length !== 0) return;
     dispatch(fetchCountryByRedux(countryName as string));

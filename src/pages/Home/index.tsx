@@ -3,17 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Paper, Table, TableContainer, TablePagination } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
-// import useCountries from '../../custom-hooks/useCountries';
 import TbHead from './components/TbHead';
 import TbBody from './components/TbBody';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchALLCountriesByRedux } from '../../redux/actions';
-import { ThemeModeContext } from '../../contexts/ThemeContext';
+import { ValueContext } from '../../contexts';
 
 import type { RootState } from '../../redux/store';
 import type { ColumnsTbHead, Countries, RowListTbBody } from '../../types';
-import type { ThemeContextType } from '../../types';
+import type { ValueContextType } from '../../types';
 
 const styles = {
   paper: {
@@ -31,23 +30,6 @@ const styles = {
 };
 
 function HomePage() {
-  //---------------------------------------------------------------------------
-  // use custom hooks
-  //
-  // const [countries, isLoading, error] = useCountries();
-  // useEffect(() => {
-  //   if (countries.length === 0 || typeof countries === 'string') return;
-  //   const data = countries.map((country) => ({
-  //     flag: country?.flags?.svg || country?.flags?.png,
-  //     name: country?.name?.common,
-  //     population: country?.population,
-  //     region: country?.continents[0],
-  //     capital: country?.capital,
-  //   }));
-  //   setRows(data);
-  // }, [countries]);
-  // -------------------------------------------------------------------------
-
   //  set up local state
   const columns = useMemo<ColumnsTbHead>(
     () => [
@@ -83,7 +65,7 @@ function HomePage() {
 
   // use ThemeContext
   const { countryName } = useParams();
-  const themeMode = useContext<ThemeContextType>(ThemeModeContext);
+  const themeMode = useContext<ValueContextType>(ValueContext);
 
   // use Redux-Thunk to fetch data countries
   const dispatch = useDispatch();
@@ -120,7 +102,7 @@ function HomePage() {
     }
   }, [dispatch, dataCountries, data]);
 
-  // update h1 in HeaderApp component
+  // update h1 (Countries in the world) in HeaderApp component
   useEffect(() => {
     themeMode.setNameCountry(countryName as undefined);
   }, [themeMode, countryName]);
@@ -162,6 +144,7 @@ function HomePage() {
   };
 
   const handleSearchCountry = (countryName: string): void => {
+    //apply debounce
     const newData = data.filter((row) => row.name.toLowerCase().includes(countryName.toLowerCase()));
     setRows(newData);
   };

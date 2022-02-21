@@ -22,13 +22,39 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-// Component
+// CardItem component
 type CardItemProps = {
   item: Item;
-  renderValue: (value: Item) => string | Currencies | { [key: string]: string } | string[];
 };
 
-function CardItem({ item, renderValue }: CardItemProps) {
+// function to render UI
+function renderValue(value: Item) {
+  if (!value.content) return '';
+
+  switch (value.category) {
+    case 'names':
+    case 'borders':
+      if (!Array.isArray(value.content)) return '';
+      return value.content.join(', ');
+
+    case 'region':
+      return value.content;
+
+    case 'currencies':
+      const valueContent = value.content as Currencies;
+      if (Object.keys(valueContent).length === 0) return '';
+      const keyCurrencies: string = Object.keys(valueContent)[0];
+      return valueContent[keyCurrencies].name;
+
+    case 'languages':
+      return Object.values(value.content).join(', ');
+
+    default:
+      return '';
+  }
+}
+
+function CardItem({ item }: CardItemProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -48,6 +74,7 @@ function CardItem({ item, renderValue }: CardItemProps) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>{renderValue(item)}</CardContent>
       </Collapse>

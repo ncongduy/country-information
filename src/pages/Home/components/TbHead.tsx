@@ -8,6 +8,7 @@ import { setCurrentSort, setSortData } from '../../../redux/actions/sortAction';
 
 import type { RootState } from '../../../redux/store';
 import type { ColumnsTbHead, ColumnItem, CategorySort } from '../../../types';
+import { debounce } from '../../../utility';
 
 type TbHeadProps = {
   columns: ColumnsTbHead;
@@ -40,8 +41,11 @@ function TbHead({ columns, onSearch, sort }: TbHeadProps) {
 
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>): void {
     if (!onSearch) return;
-    onSearch(evt.target.value);
-    dispatch(toggleDisplay(false));
+    const valueUserType = evt.target.value;
+    debounce(() => {
+      onSearch(valueUserType);
+      dispatch(toggleDisplay(false));
+    }, 200)();
   }
 
   function handleSortClick(column: CategorySort): void {

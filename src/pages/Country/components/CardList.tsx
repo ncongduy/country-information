@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useMemo } from 'react';
 import { Card, CardMedia, Paper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -6,13 +6,44 @@ import CardItem from './CardItem';
 import background from '../../../assets/img/background.jpg';
 import darkBackground from '../../../assets/img/darkBackground.jpg';
 
-import type { Item, Country, Currencies } from '../../../types';
+import type { Item, Country } from '../../../types';
 
 type CardListProps = {
   country: Partial<Country>;
 };
 
 function CardList({ country }: CardListProps) {
+  // make styles for CardList component
+  const theme = useTheme();
+  const styles = useMemo(() => {
+    return {
+      container: {
+        minHeight: 'calc(100vh - 4rem)', //AppHeader: 4rem
+        backgroundImage: `${
+          theme.palette.mode === 'light' ? `url(${background})` : `url(${darkBackground})`
+        }`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+
+      img: {
+        width: '30%',
+      },
+
+      card: {
+        listStyleType: 'none',
+        width: '50%',
+        margin: '1rem',
+        borderRadius: '0.4rem',
+      },
+    };
+  }, [theme]);
+
+  // create data to render UI
   const data = useMemo<Item[]>(() => {
     if (Object.keys(country).length === 0) return [];
 
@@ -45,59 +76,8 @@ function CardList({ country }: CardListProps) {
     ];
   }, [country]);
 
-  const theme = useTheme();
-
-  const styles = useMemo(() => {
-    return {
-      paper: {
-        minHeight: 'calc(100vh - 4rem)', //HeaderApp: 4rem
-        backgroundImage: `${
-          theme.palette.mode === 'light' ? `url(${background})` : `url(${darkBackground})`
-        }`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-
-      img: {
-        width: '30%',
-      },
-
-      card: {
-        width: '50%',
-        margin: '1rem',
-        borderRadius: '0.4rem',
-      },
-    };
-  }, [theme]);
-
-  const renderValue = useCallback((value: Item) => {
-    if (!value.content) return '';
-
-    switch (value.category) {
-      case 'names':
-      case 'borders':
-        if (!Array.isArray(value.content)) return '';
-        return value.content.join(', ');
-      case 'region':
-        return value.content;
-      case 'currencies':
-        const valueContent = value.content as Currencies;
-        if (Object.keys(valueContent).length === 0) return '';
-        const keyCurrencies: string = Object.keys(valueContent)[0];
-        return valueContent[keyCurrencies].name;
-      case 'languages':
-        return Object.values(value.content).join(', ');
-      default:
-        return '';
-    }
-  }, []);
-
   return (
-    <Paper sx={styles.paper} elevation={0}>
+    <Paper sx={styles.container} elevation={0}>
       <Paper elevation={3} sx={styles.img}>
         <CardMedia
           component="img"
@@ -106,12 +86,11 @@ function CardList({ country }: CardListProps) {
           alt="National flag"
         />
       </Paper>
-      <Card sx={styles.card}>
-        <ul>
-          {data.map((item: Item) => (
-            <CardItem key={item.category} item={item} renderValue={renderValue} />
-          ))}
-        </ul>
+
+      <Card sx={styles.card} component="ul">
+        {data.map((item: Item) => (
+          <CardItem key={item.category} item={item} />
+        ))}
       </Card>
     </Paper>
   );
