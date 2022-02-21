@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 
 import AppContext from './contexts';
-import AppHeader from './components/HeaderApp';
+import AppHeader from './components/AppHeader';
 import HomePage from './pages/Home';
 import CountryPage from './pages/Country';
 

@@ -18,7 +18,7 @@ export default function AppContext({ children }: Props) {
   const [countryName, setCountryName] = useState<string | undefined>('');
 
   // create state value in ThemeModeContext
-  const themeMode = useMemo(
+  const value = useMemo(
     () => ({
       toggleColorMode: () => {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -41,7 +41,7 @@ export default function AppContext({ children }: Props) {
   );
 
   return (
-    <ValueContext.Provider value={themeMode}>
+    <ValueContext.Provider value={value}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ValueContext.Provider>
   );
