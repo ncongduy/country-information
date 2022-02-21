@@ -5,10 +5,10 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 import { toggleDisplay } from '../../../redux/actions/favoriteCountryAction';
 import { setCurrentSort, setSortData } from '../../../redux/actions/sortAction';
+import { debounce } from '../../../utility';
 
 import type { RootState } from '../../../redux/store';
 import type { ColumnsTbHead, ColumnItem, CategorySort } from '../../../types';
-import { debounce } from '../../../utility';
 
 type TbHeadProps = {
   columns: ColumnsTbHead;
@@ -35,17 +35,16 @@ const styles = {
 };
 
 function TbHead({ columns, onSearch, sort }: TbHeadProps) {
-  const currentSort = useSelector((state: RootState) => state.sort.currentSort);
+  // Redux state: using for sort data
+  const categorySort = useSelector((state: RootState) => state.sort.categorySort);
   const sortData = useSelector((state: RootState) => state.sort.sortData);
   const dispatch = useDispatch();
 
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>): void {
     if (!onSearch) return;
     const valueUserType = evt.target.value;
-    debounce(() => {
-      onSearch(valueUserType);
-      dispatch(toggleDisplay(false));
-    }, 200)();
+    onSearch(valueUserType);
+    dispatch(toggleDisplay(false));
   }
 
   function handleSortClick(column: CategorySort): void {
@@ -65,7 +64,7 @@ function TbHead({ columns, onSearch, sort }: TbHeadProps) {
         <TableCell sx={styles.countries} align="center" colSpan={6}>
           <Paper sx={styles.paper} elevation={3}>
             <TextField
-              onChange={handleChange}
+              onChange={debounce(handleChange, 300)}
               fullWidth
               label="Enter country name here"
               id="fullWidth"
@@ -82,7 +81,7 @@ function TbHead({ columns, onSearch, sort }: TbHeadProps) {
             ) : (
               <div>
                 <IconButton
-                  color={column.id === currentSort ? 'error' : 'info'}
+                  color={column.id === categorySort ? 'error' : 'info'}
                   onClick={() => handleSortClick(column.id as CategorySort)}
                 >
                   {sortData === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
