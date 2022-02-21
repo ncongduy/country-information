@@ -31,6 +31,7 @@ const styles = {
     backgroundColor: '#203663',
     color: '#fff',
     top: '5.5rem',
+    cursor: 'pointer',
   },
 };
 
@@ -45,6 +46,10 @@ function TbHead({ columns, onSearch, sort }: TbHeadProps) {
     const valueUserType = evt.target.value;
     onSearch(valueUserType);
     dispatch(toggleDisplay(false));
+
+    if (evt.target.value === '') {
+      sort();
+    }
   }
 
   function handleSortClick(column: CategorySort): void {
@@ -75,15 +80,17 @@ function TbHead({ columns, onSearch, sort }: TbHeadProps) {
 
       <TableRow>
         {columns.map((column: ColumnItem) => (
-          <TableCell sx={styles.menu} key={column.id} style={{ minWidth: column.minWidth }}>
+          <TableCell
+            sx={styles.menu}
+            key={column.id}
+            style={{ minWidth: column.minWidth }}
+            onClick={() => handleSortClick(column.id as CategorySort)}
+          >
             {column.label === 'Flag' || column.label === 'Favorite' ? (
               column.label
             ) : (
               <div>
-                <IconButton
-                  color={column.id === categorySort ? 'error' : 'info'}
-                  onClick={() => handleSortClick(column.id as CategorySort)}
-                >
+                <IconButton color={column.id === categorySort ? 'error' : 'info'}>
                   {sortData === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
                 </IconButton>
                 {column.label}

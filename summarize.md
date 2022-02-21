@@ -20,7 +20,7 @@ state = {
   },
 
   sort: {
-    currentSort: 'name',
+    categorySort: 'name',
     sortData: 'asc',
   },
 }

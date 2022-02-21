@@ -5,7 +5,7 @@ export type SortType = 'asc' | 'dsc';
 
 // type for initialState
 export type SortState = {
-  currentSort: CategorySort;
+  categorySort: CategorySort;
   sortData: SortType;
 };
 

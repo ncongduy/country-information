@@ -34,6 +34,7 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
   const dispatch = useDispatch();
   const favoriteCountryList = useSelector((state: RootState) => state.favorite.favorite);
 
+  // function handle event
   const handleClick = useCallback(
     (row: RowTbBody) => {
       const checkCountry = favoriteCountryList.some((country) => country.name === row.name);
@@ -46,6 +47,7 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
     [dispatch, favoriteCountryList]
   );
 
+  // function help to render UI
   const renderValue = useCallback(
     (row: RowTbBody, col: ColumnItem, value: string | number) => {
       switch (col.id) {
@@ -59,7 +61,7 @@ function TbBody({ rows, columns, page, rowsPerPage }: TbBodyProps) {
         case 'name':
           return (
             <Link
-              to={`/${value}`}
+              to={`/${row.name}`}
               style={theme.palette.mode === 'dark' ? styles.linkDark : styles.linkLight}
             >
               <b>{value}</b>

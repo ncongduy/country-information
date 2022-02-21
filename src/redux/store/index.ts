@@ -22,7 +22,7 @@ const store = createStoreRedux();
 store.subscribe(
   debounce(() => {
     saveState(store.getState());
-  }, 800)
+  }, 300)
 );
 
 export type RootState = ReturnType<typeof rootReducer>;
