@@ -7,16 +7,17 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export const ThemeModeContext = createContext<ThemeContextType>({
+export const ValueContext = createContext<ThemeContextType>({
   toggleColorMode: () => {},
   countryName: '',
   setNameCountry: () => {},
 });
 
-export default function ThemeContext({ children }: Props) {
+export default function AppContext({ children }: Props) {
   const [mode, setMode] = useState<'light' | 'dark'>('light');
   const [countryName, setCountryName] = useState<string | undefined>('');
 
+  // create state value in ThemeModeContext
   const themeMode = useMemo(
     () => ({
       toggleColorMode: () => {
@@ -28,6 +29,7 @@ export default function ThemeContext({ children }: Props) {
     [countryName]
   );
 
+  // create theme dark or light for UI
   const theme = useMemo(
     () =>
       createTheme({
@@ -39,8 +41,8 @@ export default function ThemeContext({ children }: Props) {
   );
 
   return (
-    <ThemeModeContext.Provider value={themeMode}>
+    <ValueContext.Provider value={themeMode}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </ThemeModeContext.Provider>
+    </ValueContext.Provider>
   );
 }
