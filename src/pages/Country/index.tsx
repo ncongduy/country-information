@@ -2,23 +2,18 @@ import { useEffect, useMemo, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-// import useCountry from '../../custom-hooks/useCountry';
 import CardList from './components/CardList';
 import Loading from '../../components/Loading';
 import Error from '../../components/Error';
 import { fetchCountryByRedux } from '../../redux/actions';
-import { ThemeModeContext } from '../../contexts/ThemeContext';
+import { ValueContext } from '../../contexts';
 
 import type { RootState } from '../../redux/store';
-import type { Country } from '../../types';
-import type { ThemeContextType } from '../../types';
+import type { Country, ValueContextType } from '../../types';
 
 function CountryPage() {
   const { countryName } = useParams();
-  const themeMode = useContext<ThemeContextType>(ThemeModeContext);
-
-  // use custom hooks to fetch API
-  // const [country, isLoading, error] = useCountry(countryName);
+  const { setNameCountry } = useContext<ValueContextType>(ValueContext);
 
   // use Redux to fetch API
   const dispatch = useDispatch();
@@ -41,8 +36,8 @@ function CountryPage() {
   // update country name in HeaderApp component
   useEffect(() => {
     if (typeof countryName === 'undefined') return;
-    themeMode.setNameCountry(countryName as string);
-  }, [themeMode, countryName]);
+    setNameCountry(countryName as string);
+  }, [setNameCountry, countryName]);
 
   if (isLoading) {
     return <Loading />;

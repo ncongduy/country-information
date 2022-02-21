@@ -1,13 +1,13 @@
 import { createContext, useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import type { ThemeContextType } from '../types';
+import type { ValueContextType } from '../types';
 
 type Props = {
   children?: React.ReactNode;
 };
 
-export const ValueContext = createContext<ThemeContextType>({
+export const ValueContext = createContext<ValueContextType>({
   toggleColorMode: () => {},
   countryName: '',
   setNameCountry: () => {},
