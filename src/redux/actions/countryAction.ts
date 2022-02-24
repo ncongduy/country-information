@@ -11,7 +11,7 @@ export function fetchCountryByRedux(nameCountry: string) {
   return async (dispatch: Dispatch) => {
     try {
       dispatch(fetchOneCountryStart());
-      const fetchData = await fetch(`https://restcountries.com/v3.1/name/${nameCountry}`);
+      const fetchData = await fetch(`https://restcountries.com/v3.1/name/${nameCountry}/?fullText=true`);
       if (!fetchData.ok) throw new Error(`${fetchData.status} Can not fetch data`);
       const response = await fetchData.json();
 
