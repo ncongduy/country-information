@@ -145,7 +145,7 @@ function HomePage() {
   };
 
   const handleSearchCountry = (countryName: string): void => {
-    const newData = data.filter((row) => row.name.toLowerCase().includes(countryName.toLowerCase()));
+    const newData = data.filter((row) => row.name.toLowerCase().startsWith(countryName.toLowerCase()));
     setRows(newData);
   };
 
