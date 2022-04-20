@@ -3,6 +3,7 @@ logs
 *.log
 
 # Compiled binary addons
+build
 build/Release
 
 # Dependency directory
