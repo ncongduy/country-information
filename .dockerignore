@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+
+# Compiled binary addons
+build/Release
+
+# Dependency directory
+node_modules
+
+# Ignore git
+.git
+.gitignore
+
+# yarn
+yarn.lock
+
+# other
+presentation
+.prettierrc
+improve.md
